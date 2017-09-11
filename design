@@ -1,0 +1,99 @@
+QUESTIONS:
+
+1. The following row is not processed into timesheet
+T6,,1072,,N,SAT,7.000,,,10.970,,,HADSCOM0121,,,,,,,,,,,
+
+2. The following row is not processed into timesheet
+T6,,1072,,N,ES,3.500,,,2.742,,,HADSCOM0081,,,,,,,,,,,
+
+3. There are duplicate records. Only the last record will be used for the timesheet
+T6,,1301,,N,ORD,0.330,,,26.080,,,HADSRMS0421,,,,,,,,,,,
+T6,,1301,,N,ORD,0.330,,,26.080,,,HADSRMS0421,,,,,,,,,,,
+
+4. Is it necessary to populate the pay period?
+Currently this is empty
+
+
+5. Do you need any formatting in the excel output?
+
+
+1. Read DCW rates table ->
+   employee_mapping = {employee code: employee name}
+   key = employee code = 1st col if the 1st col is a number
+   value = employee name = 2nd col if the 1st col is a number
+
+2. Read PAYSHT (T6 table) ->
+   cost_center = {employee code: [list of cost_center]}
+   key = employee code = 3rd col
+   value = list of cost_center
+   cost_center = 13th col
+
+all_employee_timesheet = [instances of IndividualTimeSheet]
+
+Class IndividualTimeSheet:
+key = employee_code = 3rd col
+attributes:
+employee_name
+cost_center_list = [instances of IndividualCostCenter]
+
+function print_timesheet_to_csv
+function print_summary_to_csv
+function calculate_summary(): (from all cost centers)
+sum_milein
+sum_mileout
+sum_ord
+sum_training
+sum_mkup
+sum_sat_loading
+sum_sun_loading
+sum_sat_casual
+sum_sun_casual
+sum_loading ????
+sum_en
+sum_ns
+sum_ph
+sum_phloading
+sum_phnw
+sum_al
+sum_ll
+sum_pcl
+sum_compassionate_leave
+sum_ot1x5
+sum_ot2
+sum_ot2x5
+sum_internet
+
+
+
+Class IndividualCostCenter: (per employer)
+key = cost_center = 13th col
+attributes:
+milein = 7th col if the 6th col is MILEIN
+mileout = 7th col if the 7th col is MILEOUT
+km_greater_than_10 = 7th col if (the 6th col is ORD) and (the 7th col < 1) and (the 7th col != 0.5)
+ord = 7th col if (the 6th col is ORD) and ((the 7th col >= 1) or (the 7th col = 0.5))
+training = 7th col if the 6th col is TRAINING
+mkup = empty string
+total (calculated in a function) = km_greater_than_10 + ord + training
+sat_loading = empty string
+sun_loading = empty string
+sat_casual = 7th col if the 6th col is SATCAS
+sun_casual = 7th col if the 6th col is SUNCAS
+en = empty string
+ns = empty string
+ph = 7th col if the 6th col is PH
+ph_loading = 7th col if the 6th col is PHLOAD
+phnw = 7th col if the 6th col is PHNW
+al = 7th col if the 6th col is AL
+ll = 7th col if the 6th col is LL
+pcl = 7th col if the 6th col is PCL
+compassionate_leave = empty string
+ot1x5 = empty string
+ot2 = empty string
+ot2x5 = empty string
+internet = 7th col if the 6th col is INTERNET
+
+function concatenate_as_string
+function define add/+ function
+
+Global function generate_summary_report()

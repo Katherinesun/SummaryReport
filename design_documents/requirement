@@ -1,0 +1,32 @@
+附件里有三个文件，一个是之前那个小程序生成的PAYTSHT.INP，也就是T6表，一个是employee code和 full name 对应的表，最后一个是我们需要填的timesheet and summary table。
+
+打开summary table, 第1,2列需要填employee code和name,这些数据能从对应表DCW rates里得到。 这张DCW表的唯一功能就是获取名字和code的对应，所以每当有新增或者减少的员工名字和号码，都会更新一次。所以希望你的程序可以在每次运行的时候读一次这张表来获取最新的code & name.
+
+有了employee code, 我们就能对应到T6表里面的数据了。第3列是cost centre. 也就是T6表里面的"HADSRMS0421" 。 每一行T6表的数据，都要在summary table里显示出来，即使T6里面连续两条重复，summary table里也应该是两条重复的数据。（员工号和名字不用重复，你看sample里面就是用横线隔开每个员工的数据）
+
+第4,5列是milein/out, 对应T6里面"MILEINT,39.970" 或者"MILEOUT,16.000"这类的行。
+
+第6,7列是KM>10和ORD, 对于T6表的ORD后面所有小于1的数字，除了0.5之外，都放在KM>10里面； 而ORD后面数字大于等于1的数据，包括0.5本身，都放在ORD这列里面。
+TO CLARIFY: there are duplicate records. what to do what that?
+
+8是training, 对应T6表里面TRAINING后面的数，例如"T6,,1050,,N,TRAINING,1.000,,,27.430,,,HADSCOM0081,,,,,,,,,,,"  这个1.000。
+
+9是MKup, 暂时没有这个数据，可以忽略。
+
+10是Total, 把F,G,H三个列的数字相加的结果放这里
+
+Sat/Sun Loading, 暂时忽略。
+
+SatCas和SunCas, 取T6里面SATCAS和SUNCAS后面的数字，例如 "T6,,1296,,N,SUNCAS,6.000,,,15.648,,,HADSRMS0261,,,,,,,,,,, "  后面的6.000
+
+ES,NS忽略
+
+PH对应T6的PH, PH Loading对应PHLOAD, PHNW在附件的T6里面也有对应的数据PHNW
+
+AL, LL, PCL 也是对应T6的三个同名行。
+
+然后后面的compassion, OT之类的都可以忽略， 最后就是Intenet对应回T6的INTERNET了。
+
+上面部分是Timesheet , 下面部分的summary report就是相加起来就行，一人一行，大家有份。
+
+多谢晒老板娘~~有问题随时找我~~
