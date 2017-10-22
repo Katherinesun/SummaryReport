@@ -4,6 +4,7 @@ from openpyxl import load_workbook, Workbook
 
 delimiter = ','
 
+# Output file header
 TIMESHEET_HEADER = ['Employee',
                     'Name',
                     'Cost Center',
@@ -49,7 +50,7 @@ PAYSHT_NAME = [None,
                'ES',
                'NS',
                'PH',
-               'PHLOAD',
+               'PHLOAD',  # 'PHCAS' will be treated the same as 'PHLOAD'
                'PHNW',
                'AL',
                'LL',
@@ -100,6 +101,10 @@ def get_employee_list(filename):
 
 
 class CostCenter:
+    """
+    Put all the data related to a cost center into a class.
+    An instance of CostCenter belongs to an instance of IndividualEmployeeTimeSheet
+    """
     PAYTYPES = filter(bool, PAYSHT_NAME)
 
     def __init__(self, employee_timesheet, cost_center):
@@ -108,13 +113,25 @@ class CostCenter:
         self.data = dict(zip(self.PAYTYPES, [''] * len(self.PAYTYPES)))
 
     def calculate_total(self):
+        """
+        Calculate the total cost for a cost center for an employee:
+          'KM>10' + 'Ord' + 'TRAINING'
+        """
         self.data['Total'] = (to_float(self.data['KM>10']) +
                               to_float(self.data['ORD']) +
                               to_float(self.data['TRAINING']))
 
     def process(self, cols):
+        """
+        Process columns of a row (for this cost center) from PAYSHT.INP
+        """
         paytype = cols[5]
         value = float(cols[6])
+
+        if paytype == 'PHCAS':
+            # 'PHCAS' is treated the same as 'PHLOAD'
+            paytype = 'PHLOAD'
+
         if (paytype == 'ORD') and (value < 1) and (value != 0.5):
             self.data['KM>10'] = value
             self.calculate_total()
