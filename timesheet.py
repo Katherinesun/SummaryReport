@@ -130,11 +130,12 @@ class CostCenter:
         paytype = cols[5]
         value = float(cols[6])
 
+        getData = lambda t: self.data[t] if self.data[t] != '' else 0.0
         if (paytype == 'ORD') and (value < 1) and (value != 0.5):
-            self.data['KM>10'] = self.data.get('KM>10', 0) + value
+            self.data['KM>10'] = getData('KM>10') + value
             self.calculate_total()
         elif paytype in self.data:
-            self.data[paytype] = self.data.get(paytype, 0) + value
+            self.data[paytype] = getData(paytype) + value
             self.calculate_total()
         else:
             print("Paytype '%s' is not recognized." % paytype,
