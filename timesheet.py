@@ -21,12 +21,13 @@ TIMESHEET_HEADER = ['Employee',
                     'SunCasual Loading',
                     'ES',
                     'NS',
-                    'PH',
+                    'PHCAS',
                     'PH Loading',
                     'PHNW',
                     'AL',
                     'LL',
                     'PCL',
+                    'LSL',
                     'Compassionate Leave',
                     'OT1x5',
                     'OT2',
@@ -49,12 +50,13 @@ PAYSHT_NAME = [None,
                'SUNCAS',
                'ES',
                'NS',
-               'PH',
-               'PHLOAD',  # 'PHCAS' will be treated the same as 'PHLOAD'
+               'PHCAS',
+               'PHLOAD',
                'PHNW',
                'AL',
                'LL',
                'PCL',
+               'LSL',
                'Compassionate Leave',
                'OT1x5',
                'OT2',
@@ -128,15 +130,12 @@ class CostCenter:
         paytype = cols[5]
         value = float(cols[6])
 
-        if paytype == 'PHCAS':
-            # 'PHCAS' is treated the same as 'PHLOAD'
-            paytype = 'PHLOAD'
-
+        getData = lambda t: self.data[t] if self.data[t] != '' else 0.0
         if (paytype == 'ORD') and (value < 1) and (value != 0.5):
-            self.data['KM>10'] = value
+            self.data['KM>10'] = getData('KM>10') + value
             self.calculate_total()
         elif paytype in self.data:
-            self.data[paytype] = value
+            self.data[paytype] = getData(paytype) + value
             self.calculate_total()
         else:
             print("Paytype '%s' is not recognized." % paytype,
