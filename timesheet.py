@@ -21,7 +21,7 @@ TIMESHEET_HEADER = ['Employee',
                     'SunCasual Loading',
                     'ES',
                     'NS',
-                    'PH',
+                    'PHCAS',
                     'PH Loading',
                     'PHNW',
                     'AL',
@@ -50,8 +50,8 @@ PAYSHT_NAME = [None,
                'SUNCAS',
                'ES',
                'NS',
-               'PH',
-               'PHLOAD',  # 'PHCAS' will be treated the same as 'PHLOAD'
+               'PHCAS',
+               'PHLOAD',
                'PHNW',
                'AL',
                'LL',
@@ -129,10 +129,6 @@ class CostCenter:
         """
         paytype = cols[5]
         value = float(cols[6])
-
-        if paytype == 'PHCAS':
-            # 'PHCAS' is treated the same as 'PHLOAD'
-            paytype = 'PHLOAD'
 
         if (paytype == 'ORD') and (value < 1) and (value != 0.5):
             self.data['KM>10'] = value
