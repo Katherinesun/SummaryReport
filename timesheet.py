@@ -1,3 +1,4 @@
+#!python2
 import sys
 from collections import defaultdict
 from openpyxl import load_workbook, Workbook
@@ -44,8 +45,8 @@ PAYSHT_NAME = [None,
                'TRAINING',
                'Mkup',
                'Total',
-               'Sat Loading',
-               'Sun Loading',
+               'SAT',
+               'SUN',
                'SATCAS',
                'SUNCAS',
                'ES',
