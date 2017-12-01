@@ -1,3 +1,4 @@
+#!python2
 from appJar import gui
 from timesheet import *
 

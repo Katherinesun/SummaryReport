@@ -1,4 +1,3 @@
-#!python2
 import sys
 from collections import defaultdict
 from openpyxl import load_workbook, Workbook
